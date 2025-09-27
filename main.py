@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from sqlmodel import Session, SQLModel, create_engine, select
 from models.movie import Movie
 from typing import Annotated
+import urllib.parse
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -56,7 +57,6 @@ async def submit_form(
 
 @app.post("/delete_movie/{movie_name}")
 async def delete_movie(movie_name: str, session: SessionDep):
-    import urllib.parse
     movie_name = urllib.parse.unquote(movie_name)
     
     movie = session.exec(select(Movie).where(Movie.name == movie_name)).first()
@@ -68,7 +68,6 @@ async def delete_movie(movie_name: str, session: SessionDep):
 
 @app.get("/edit_movie/{movie_name}", response_class=HTMLResponse)
 async def edit_movie_form(request: Request, movie_name: str, session: SessionDep):
-    import urllib.parse
     movie_name = urllib.parse.unquote(movie_name)
     
     movie = session.exec(select(Movie).where(Movie.name == movie_name)).first()
@@ -91,7 +90,6 @@ async def update_movie(
     year_watched: str = Form(...),
     rating: int = Form(...)
 ):
-    import urllib.parse
     movie_name = urllib.parse.unquote(movie_name)
     
     movie = session.exec(select(Movie).where(Movie.name == movie_name)).first()
