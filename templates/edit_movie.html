@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>Редактирование фильма</title>
+    </head>
+    <body>
+        <nav class="menu">
+            <ul>
+                <li><a href="/">Форма</a></li>
+                <li><a href="/form_edit">Список</a></li>
+            </ul>
+        </nav>
+        
+        <h2>Редактирование фильма: {{ movie.name }}</h2>
+        <form action="/update_movie/{{ movie.name | urlencode }}" method="post">
+            <label for="name">Название:</label><br>
+            <input type="text" id="name" name="name" value="{{ movie.name }}" required><br><br>
+            
+            <label for="genre">Жанр:</label>
+            <select id="genre" name="genre">
+                <option value="drama" {% if movie.genre == "drama" %}selected{% endif %}>Драма</option>
+                <option value="comedy" {% if movie.genre == "comedy" %}selected{% endif %}>Комедия</option>
+                <option value="fantasy" {% if movie.genre == "fantasy" %}selected{% endif %}>Фантастика</option>
+            </select><br><br>
+            
+            <label for="year_release">Год выпуска:</label><br>
+            <input type="date" id="year_release" name="year_release" value="{{ movie.year_release }}" required><br>
+            
+            <label for="year_watched">Год просмотра:</label><br>
+            <input type="date" id="year_watched" name="year_watched" value="{{ movie.year_watched }}" required><br><br>
+            
+            <label for="rating">Оценка:</label>
+            <select id="rating" name="rating">
+                <option value="1" {% if movie.rating == 1 %}selected{% endif %}>1</option>
+                <option value="2" {% if movie.rating == 2 %}selected{% endif %}>2</option>
+                <option value="3" {% if movie.rating == 3 %}selected{% endif %}>3</option>
+                <option value="4" {% if movie.rating == 4 %}selected{% endif %}>4</option>
+                <option value="5" {% if movie.rating == 5 %}selected{% endif %}>5</option>
+            </select><br><br>
+            
+            <input type="submit" value="Обновить">
+            <a href="/form_edit">Отмена</a>
+        </form>
+    </body>
+</html>
